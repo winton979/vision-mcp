@@ -1,0 +1,32 @@
+{
+  "name": "@winton979/vision-mcp",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "MCP server exposing an analyze_image tool backed by an OpenAI-compatible vision LLM.",
+  "bin": {
+    "vision-mcp": "dist/index.js"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "smoke": "node smoke.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": { "node": ">=18" },
+  "keywords": ["mcp", "model-context-protocol", "vision", "openai", "vl"],
+  "repository": { "type": "git", "url": "git+https://github.com/winton979/vision-mcp.git" },
+  "homepage": "https://github.com/winton979/vision-mcp#readme",
+  "bugs": { "url": "https://github.com/winton979/vision-mcp/issues" },
+  "author": "winton979",
+  "license": "MIT",
+  "dependencies": { "@modelcontextprotocol/sdk": "^1.0.4" },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
