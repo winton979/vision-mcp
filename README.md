@@ -107,10 +107,6 @@ env = { VISION_BASE_URL = "<your-base-url>", VISION_API_KEY = "<your-api-key>", 
 
 ## Tips: avoid `[image]` tag conversion (Windows)
 
-When you paste a local image path into Claude Code, the CLI may auto-convert it into an `[image]` tag and inline the bytes, which fails on models that do not accept image input. To keep the raw path intact, use [ImageClipboardModify](https://github.com/winton979/ImageClipboardModify) — it appends a fixed prefix to clipboard image paths so they are no longer recognized as images, letting `analyze_image` receive the path verbatim.
-
-> 中文说明:Claude Code 会把粘贴的本地图片路径自动识别为 `[image]` 标签,导致不支持图片的模型报错。可使用 [ImageClipboardModify](https://github.com/winton979/ImageClipboardModify) 给剪切板图片附加一段固定文字,绕过识别,让路径以纯文本形式传入 `analyze_image`。
-
 ## Local development
 
 ```bash
