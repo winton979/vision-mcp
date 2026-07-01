@@ -105,8 +105,6 @@ env = { VISION_BASE_URL = "<your-base-url>", VISION_API_KEY = "<your-api-key>", 
 | `detail` | string | No | `low` / `high` / `auto` |
 | `system` | string | No | Optional system message |
 
-## Tips: avoid `[image]` tag conversion (Windows)
-
 ## Local development
 
 ```bash
