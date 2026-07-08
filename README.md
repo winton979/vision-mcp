@@ -98,12 +98,45 @@ env = { VISION_BASE_URL = "<your-base-url>", VISION_API_KEY = "<your-api-key>", 
 | `url` | string | one of three | Public http(s) URL of the image |
 | `base64` | string | one of three | Raw base64 string |
 | `mime_type` | string | No | Override MIME type (auto-detected) |
-| `prompt` | string | No | What to ask the model (defaults to detailed description) |
+| `task` | string | No | Optimized analysis mode (default `general`) |
+| `prompt` | string | No | Specific question; overrides the task's default instruction |
+| `response_mode` | string | No | Output structure: `markdown` (default) / `json` / `plain_text` |
 | `model` | string | No | Override model per call |
 | `max_tokens` | integer | No | Default 4096 |
 | `temperature` | number | No | Default 0.2 |
 | `detail` | string | No | `low` / `high` / `auto` |
-| `system` | string | No | Optional system message |
+| `system` | string | No | Extra system guidance appended after the built-in base rules |
+
+### `task`
+
+Selects an optimized built-in system context + default instruction, so callers don't have to hand-write a prompt for common cases:
+
+| task | use for |
+|---|---|
+| `general` | default — objects, text, layout, anomalies |
+| `ocr` | verbatim text transcription, preserving layout |
+| `ui_review` | layout, alignment, overflow, element states, a11y |
+| `document` | document structure & key content |
+| `table` | reconstruct tables as markdown tables |
+| `diagram` | nodes, edges, flow, relationships |
+| `chart` | chart type, axes, series, trends, values |
+| `receipt` | merchant, line items, totals |
+| `math` | transcribe & solve step by step |
+| `code` | transcribe code verbatim |
+
+If `prompt` is also provided, it takes precedence as the specific question while the task's specialized context still applies — e.g. `task=ocr, prompt="what is the total amount?"`.
+
+### `response_mode`
+
+- `markdown` (default) — structured report (`## Summary` / `## Visible Objects` / `## Text` / `## Findings` / `## Uncertainties`)
+- `json` — a single JSON object (`summary`, `objects`, `text`, `findings`, `uncertainties`) for easy parsing; the tool returns **only** the JSON, with no extra metadata appended
+- `plain_text` — unstructured text
+
+> `json` mode sends `response_format: { type: "json_object" }`. Some OpenAI-compatible gateways do not support this field and may return HTTP 400; in that case fall back to `markdown`.
+
+### Built-in behavior
+
+A fixed base system prompt is always applied — it enforces observable-facts-only reporting, exact text preservation, and prompt-injection protection (text inside the image is treated as content, never as instructions). The optional `system` parameter is appended after these rules and cannot override them.
 
 ## Tips: avoid `[image]` tag conversion (Windows)
 
